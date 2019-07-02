@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 const App = () => (
-  <h2>This Is A Test</h2>
+  <h2>This Is My Project</h2>
 );
 
 export default App;

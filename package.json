@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/index.js",
     "build": "webpack --env.NODE_ENV=production --env.production",
-    "dev": "webpack-dev-server --open --env.NODE_ENV=development --env.development ",
+    "dev": "webpack-dev-server --open --env.NODE_ENV=development --env.development --hot",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "nodemonConfig": {
@@ -28,18 +28,17 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "fsevents": "^2.0.7",
     "google-protobuf": "^3.9.0-rc.1",
     "gtfs": "^1.8.7",
     "gtfs-realtime-bindings": "0.0.5",
     "mongoose": "^5.6.2",
+    "node-redis": "^0.1.7",
     "prop-types": "^15.7.2",
     "protobufjs": "^6.8.8",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "^3.0.1",
     "request": "^2.88.0",
-    "webpack": "^4.35.2"
+    "socketio": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
@@ -49,8 +48,10 @@
     "concurrently": "^4.1.1",
     "cross-env": "^5.2.0",
     "css-loader": "^3.0.0",
+    "html-webpack-plugin": "^3.2.0",
     "nodemon": "^1.19.1",
     "style-loader": "^0.23.1",
+    "webpack": "^4.35.2",
     "webpack-cli": "^3.3.5",
     "webpack-dev-server": "^3.7.2"
   }
