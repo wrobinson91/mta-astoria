@@ -1,16 +1,18 @@
 const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
-const MongoClient = require('mongodb').MongoClient;
+// const { Schema } = mongoose;
+const { MongoClient } = require('mongodb');
 
-const connectDb = mongoose.connection;
+const db = mongoose.connection;
 
-mongoose.connect('mongodb://localhost/solo-project', () => {
+mongoose.connect('mongodb://localhost/solo-project', { useNewUrlParser: true }, () => {
   console.log('Connect callback');
   // console.log('our DB object.collection: ', connectDb.collections);
 });
 
-mongoose.connection.once('open', () => {
+db.on('error', console.error.bind(console, 'connection error'));
+
+db.once('open', () => {
   console.log('Connected with MogoDB ORM - MTA solo project');
 });
 

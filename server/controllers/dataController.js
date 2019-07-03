@@ -14,15 +14,16 @@
 
 // * @.entity
 // * then [? tripUpdate.trip.routeId == `"N"` || tripUpdate.trip.routeId == `"W"`]
-// * then [? tripUpdate.stopTimeUpdate[?stopId==`"R08N"`]]
+// * then [? tripUpdate.stopTimeUpdate[?stopId==`"R08S"`]]
 // * but how do I preserve the parents?
-// * this doesn't get enough [? tripUpdate.trip.routeId == `"N"`] && [? tripUpdate.stopTimeUpdate[?stopId == `"R08N"`]]
+// * this doesn't get enough [? tripUpdate.trip.routeId == `"N"`] && [? tripUpdate.stopTimeUpdate[?stopId == `"R08S"`]]
+
 const request = require('request');
 
-const fetch = require('node-fetch');
+// const fetch = require('node-fetch');
 const GtfsRealtimeBindings = require('gtfs-realtime-bindings');
 
-const myProxy = 'https://cors-anywhere.herokuapp.com/';
+// const myProxy = 'https://cors-anywhere.herokuapp.com/';
 const mtaURL = 'http://datamine.mta.info/mta_esi.php?key=cd2dda73f82857cc82ab60fe95735909&feed_id=16';
 const mtaReq = {
   method: 'GET',
@@ -57,7 +58,7 @@ const dataController = {
   // 39th Ave Test
   // Q01 is for N, express
   // R33 is for WR, local
-  nextTrainsForMe(trainData, myStopId = 'R08', workStop = ['R23', 'Q01'], timeToWalk = 5) {
+  nextTrainsForMe(trainData, myStopId = 'R08S', workStop = ['R23S', 'Q01S'], timeToWalk = 5) {
     const newTimes = [];
     trainData.entity.forEach((trainRoute) => {
       // calling forEach on all the info in this API
@@ -76,7 +77,7 @@ const dataController = {
             const timeNowMs = Date.parse(new Date());
             // only look for trains whose routes began 20min or more ago -- more likely to be at the end for
             // this particular stop
-            if (stopInfo.stopId === `${myStopId}S`) {
+            if (stopInfo.stopId === `${myStopId}`) {
             // console.log('found a stop');
               const nextArrivalTimesMS = startTimeInMS + (stopInfo.departure.time * 1000 - startTimeInMS);
               // const msFromNow = stopInfo.departure.time * 1000 - startTimeInMS;
@@ -95,7 +96,7 @@ const dataController = {
               }
             }
 
-            if (stopInfo.stopId === `${workStop[0]}S` || stopInfo.stopId === `${workStop[1]}S`) {
+            if (workStop.includes(stopInfo.stopId)) {
               const nextDepartureTimeMS = startTimeInMS + (stopInfo.arrival.time * 1000 - startTimeInMS);
               const minsFromNow = Math.floor((nextDepartureTimeMS - timeNowMs) / 1000 / 60) <= 0 ? 1 : Math.floor((nextDepartureTimeMS - timeNowMs) / 1000 / 60);
               stopObj.arrivalTime = minsFromNow;

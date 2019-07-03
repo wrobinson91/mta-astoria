@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import getMyTrainData from '../utils/fetching.js';
+import React, { useState, useEffect, useContext } from 'react';
 import TrainTime from '../components/TrainTime.jsx';
+import SubwayContext from '../context/SubwayContext.jsx';
+import * as types from '../constants/actionTypes.js';
+
 
 // const mtaReq = {
 //   method: 'GET',
@@ -22,6 +24,9 @@ const SubwayContainer = () => {
     },
   ]);
 
+  const subwayContextTest = useContext(SubwayContext);
+  console.log(subwayContextTest);
+
   const fetchTrainData = () => {
     fetch('/api')
       .then(data => data.json())
@@ -35,11 +40,27 @@ const SubwayContainer = () => {
     fetchTrainData();
   }, []);
 
+  useEffect(() => {
+    console.log('state change: ', subwayContextTest.state);
+  }, [subwayContextTest.state]);
+
+  // render first three
   return (
     <>
       <h4>Your Next Subway Times</h4>
       <div>
         <button type="submit" onClick={fetchTrainData}>Refresh Sked</button>
+        <button
+          type="submit"
+          onClick={(e) => {
+            e.preventDefault();
+            subwayContextTest.dispatch({ type: types.LOGIN_REQ, loggedIn: true });
+            console.log('hello, dispatch called');
+          }}
+        >
+Login Dummy
+
+        </button>
       </div>
       <TrainTime trainTimes={trainTimes} />
     </>
