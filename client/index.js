@@ -5,6 +5,8 @@ import { AppContainer } from 'react-hot-loader';
 import App from './components/App.jsx';
 // import styles from './styles/styles.css';
 
+// set init state here
+
 render(
   <AppContainer>
     <App />

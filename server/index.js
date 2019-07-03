@@ -57,12 +57,13 @@ const nextTrainsForMe = (trainData, myStopId = 'R08') => {
         const timeNowMs = Date.parse(new Date());
         // only look for trains whose routes began 20min or more ago -- more likely to be at the end for
         // this particular stop
-        if (stopInfo.stopId === `${myStopId}N`) {
+        if (stopInfo.stopId === `${myStopId}S`) {
           // console.log('found a stop');
           const nextArrivalTimesMS = startTimeInMS + (stopInfo.departure.time * 1000 - startTimeInMS);
           // const msFromNow = stopInfo.departure.time * 1000 - startTimeInMS;
           const minsFromNow = Math.floor((nextArrivalTimesMS - timeNowMs) / 1000 / 60) <= 0 ? 1 : Math.floor((nextArrivalTimesMS - timeNowMs) / 1000 / 60);
-          if (minsFromNow <= 30) {
+          // filter for walk to station factor
+          if (minsFromNow <= 30 && minsFromNow >= 5) {
             newTimes.push(minsFromNow);
           }
         }

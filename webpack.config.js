@@ -16,8 +16,17 @@ module.exports = {
   devServer: {
     publicPath: '/build/',
     hot: true,
-    // proxy: null,
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
   },
+  node: {
+    net: 'empty',
+    tls: 'empty',
+    dns: 'empty',
+    fs: 'empty',
+  },
+  // target: 'node',
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({

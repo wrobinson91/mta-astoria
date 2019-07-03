@@ -4,9 +4,9 @@
   "description": "A better way to access real-time NYC Subway data.",
   "main": "index.js",
   "scripts": {
-    "start": "node server/server.js",
+    "start": "nodemon server/server.js",
     "build": "webpack --env.NODE_ENV=production --env.production",
-    "dev": "webpack-dev-server --open --env.NODE_ENV=development --env.development --hot",
+    "dev": "npm start & webpack-dev-server --open --env.NODE_ENV=development --env.development --hot",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "nodemonConfig": {
@@ -31,13 +31,17 @@
     "google-protobuf": "^3.9.0-rc.1",
     "gtfs": "^1.8.7",
     "gtfs-realtime-bindings": "0.0.5",
+    "jmespath": "^0.15.0",
     "mongoose": "^5.6.2",
+    "node-fetch": "^2.6.0",
     "node-redis": "^0.1.7",
     "prop-types": "^15.7.2",
     "protobufjs": "^6.8.8",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-hot-loader": "^4.5.3",
+    "react-hot-loader": "^4.12.0",
+    "react-router": "^5.0.1",
+    "react-router-dom": "^5.0.1",
     "request": "^2.88.0",
     "socketio": "^1.0.0"
   },
