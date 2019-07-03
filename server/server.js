@@ -1,20 +1,24 @@
 const express = require('express');
-// const Server = require('socket.io');
-// * maybe no sockets required.
+// * probably no sockets required.
 // * look up https://developer.mozilla.org/en-US/docs/Web/API/EventSource
 // * https://www.html5rocks.com/en/tutorials/eventsource/basics/
-// const io = new Server();
-// const request = require('request');
-// const fs = require('fs');
+
 const app = express();
-const path = require('path');
+const dataController = require('./controllers/dataController.js');
+// const path = require('path');
 
 const port = 3000;
 
-app.use(express.static(path.join(__dirname, '../client')));
-
 app.get('/', (req, res) => {
-  res.status(200).sendFile(`${__dirname}../../index.html`);
+  res.status(200).send('welcome to the server');
+});
+
+app.get('/api', dataController.getMyTrainData, (req, res) => {
+  // do something with this bigass json
+  // console.log('my data:', res.locals.myNextTrain);
+
+  res.status(200).json(res.locals.myNextTrain);
+  // res.status(200).send(JSON.stringify(res.locals.myNextTrain));
 });
 
 app.get('*', (req, res) => {

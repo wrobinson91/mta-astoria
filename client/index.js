@@ -2,8 +2,10 @@ import React from 'react';
 import { render } from 'react-dom';
 // needs to have JSX
 import { AppContainer } from 'react-hot-loader';
+import { SubwayContextProvider } from './context/SubwayContext.jsx';
 import App from './components/App.jsx';
-// import styles from './styles/styles.css';
+import styles from './styles/styles.css';
+import 'babel-polyfill';
 
 // set init state here
 

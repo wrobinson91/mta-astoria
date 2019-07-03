@@ -22,16 +22,17 @@ const request = require('request');
 const fetch = require('node-fetch');
 const GtfsRealtimeBindings = require('gtfs-realtime-bindings');
 
+const myProxy = 'https://cors-anywhere.herokuapp.com/';
 const mtaURL = 'http://datamine.mta.info/mta_esi.php?key=cd2dda73f82857cc82ab60fe95735909&feed_id=16';
 const mtaReq = {
   method: 'GET',
-  url: mtaURL,
+  url: myProxy + mtaURL,
   encoding: null,
-  opts: { mode: 'no-cors' },
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-  },
+  // opts: { mode: 'no-cors' },
+  // headers: {
+  //   'Access-Control-Allow-Origin': '*',
+  //   'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+  // },
 };
 
 const findStartTime = (trainLine) => {
@@ -55,7 +56,7 @@ const findStartTime = (trainLine) => {
 // 39th Ave Test
 // Q01 is for N, express
 // R33 is for WR, local
-const nextTrainsForMe = (trainData, myStopId = 'R08', workStop = ['R23', 'Q01']) => {
+const nextTrainsForMe = (trainData, myStopId = 'R08', workStop = ['R23', 'Q01'], timeToWalk = 5) => {
   const newTimes = [];
   trainData.entity.forEach((trainRoute) => {
     // calling forEach on all the info in this API
@@ -79,11 +80,11 @@ const nextTrainsForMe = (trainData, myStopId = 'R08', workStop = ['R23', 'Q01'])
             // const msFromNow = stopInfo.departure.time * 1000 - startTimeInMS;
             const minsFromNow = Math.floor((nextArrivalTimesMS - timeNowMs) / 1000 / 60) <= 0 ? 1 : Math.floor((nextArrivalTimesMS - timeNowMs) / 1000 / 60);
             // filter for walk to station factor
-            if (minsFromNow <= 30) {
+            if (minsFromNow <= 30 + timeToWalk && minsFromNow >= timeToWalk) {
               stopObj.departTime = minsFromNow;
               if (Object.keys(stopObj).length === 2) {
                 newTimes.push(stopObj);
-                console.log(newTimes);
+                // console.log(newTimes);
                 // break;
               }
             }
@@ -95,7 +96,7 @@ const nextTrainsForMe = (trainData, myStopId = 'R08', workStop = ['R23', 'Q01'])
             stopObj.arrivalTime = minsFromNow;
             if (Object.keys(stopObj).length === 2) {
               newTimes.push(stopObj);
-              console.log(newTimes);
+              // console.log(newTimes);
               // break;
             }
           }
@@ -106,7 +107,7 @@ const nextTrainsForMe = (trainData, myStopId = 'R08', workStop = ['R23', 'Q01'])
   return newTimes;
 };
 
-const getMyTrainData = () => {
+const getMyTrainData = async () => {
   // fetch(mtaURL, mtaReq)
   //   .then((data) => {
   //     const feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(data);
@@ -125,24 +126,27 @@ const getMyTrainData = () => {
   //   });
 
   request(mtaReq, (error, response, body) => {
+    console.log('request has been made');
     if (error) {
       console.log('throwing an error');
       throw new Error(error);
     }
     if (!error && response.statusCode === 200) {
       // console.log('request has been made');
+      console.log('request completed');
       const feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(body);
       // console.log(feed);
 
       const myNextTrain = nextTrainsForMe(feed).sort((a, b) => a.arrivalTime - b.arrivalTime);
 
-      console.log(`Train arrival times are: ${Object.values(myNextTrain)}`);
-      console.log(`My next train is in ${myNextTrain[0].departTime} minutes. It'll reach your work stop at ${myNextTrain[0].arrivalTime}`);
+      // console.log(`Train arrival times are: ${Object.values(myNextTrain)}`);
+      console.log(`The best next train you can catch is in ${myNextTrain[0].departTime} minutes. It'll reach your work stop in ${myNextTrain[0].arrivalTime} minutes.`);
+      console.log('returning out this array: ', myNextTrain);
       return myNextTrain;
     }
   });
 };
 
-getMyTrainData();
+// getMyTrainData();
 
 module.exports = getMyTrainData;

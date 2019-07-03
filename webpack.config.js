@@ -6,6 +6,7 @@ const webpack = require('webpack');
 module.exports = {
   entry: [
     'react-hot-loader/patch',
+    'babel-polyfill',
     './client/index.js',
   ],
   output: {
@@ -14,6 +15,7 @@ module.exports = {
   },
   mode: 'development',
   devServer: {
+    port: 8080,
     publicPath: '/build/',
     hot: true,
     proxy: {

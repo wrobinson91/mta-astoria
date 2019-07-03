@@ -14,21 +14,34 @@ import TrainTime from '../components/TrainTime.jsx';
 
 
 const SubwayContainer = () => {
-  const [trainTimes, setNewTrainTimes] = useState([]);
+  const [trainTimes, setNewTrainTimes] = useState([
+    {
+      trainLine: 'Loading...',
+      arrivalTime: 'Loading...',
+      departTime: 'Loading...',
+    },
+  ]);
+
+  const fetchTrainData = () => {
+    fetch('/api')
+      .then(data => data.json())
+      .then((cleanedTrainData) => {
+        console.log('cleaned out data: ', cleanedTrainData);
+        setNewTrainTimes(cleanedTrainData);
+      });
+  };
+
   useEffect(() => {
-    setNewTrainTimes(getMyTrainData);
-    console.log('my train times:', trainTimes);
-  });
+    fetchTrainData();
+  }, []);
 
   return (
     <>
       <h4>Your Next Subway Times</h4>
       <div>
-        <button type="submit">Refresh Sked</button>
+        <button type="submit" onClick={fetchTrainData}>Refresh Sked</button>
       </div>
-      <div>Train Times Go Here</div>
-      <div>Train time components</div>
-      <TrainTime />
+      <TrainTime trainTimes={trainTimes} />
     </>
   );
 };
