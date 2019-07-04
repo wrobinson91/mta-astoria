@@ -29,11 +29,6 @@ const mtaReq = {
   method: 'GET',
   url: mtaURL,
   encoding: null,
-  // opts: { mode: 'no-cors' },
-  // headers: {
-  //   'Access-Control-Allow-Origin': '*',
-  //   'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-  // },
 };
 
 const dataController = {

@@ -16,23 +16,39 @@ import * as types from '../constants/actionTypes.js';
 
 
 const SubwayContainer = () => {
-  const [trainTimes, setNewTrainTimes] = useState([
-    {
-      trainLine: 'Loading...',
-      arrivalTime: 'Loading...',
-      departTime: 'Loading...',
-    },
-  ]);
+  // const [trainTimes, setNewTrainTimes] = useState([
+  //   {
+  //     trainLine: 'Loading...',
+  //     arrivalTime: 'Loading...',
+  //     departTime: 'Loading...',
+  //   },
+  // ]);
 
   const subwayContextTest = useContext(SubwayContext);
   console.log(subwayContextTest);
+  let userInfoTest;
+
+  const fetchLoginData = () => {
+    fetch('/login', { method: 'POST', headers: { 'Content-type': 'application/json' }, body: JSON.stringify({ username: 'wrobinson', password: 'hi' }) })
+      .then(data => data.json())
+      .then((userInfo) => {
+        console.log('you have logged in: ', userInfo);
+        userInfoTest = userInfo;
+        subwayContextTest.dispatch({ type: types.LOGIN_REQ, userInfo: userInfoTest });
+      })
+      .catch((err) => {
+        console.log('error in login req');
+        throw new Error(err);
+      });
+  };
 
   const fetchTrainData = () => {
     fetch('/api')
       .then(data => data.json())
       .then((cleanedTrainData) => {
         console.log('cleaned out data: ', cleanedTrainData);
-        setNewTrainTimes(cleanedTrainData);
+        // setNewTrainTimes(cleanedTrainData);
+        subwayContextTest.dispatch({ type: types.GET_NEW_DATA, trainTimes: cleanedTrainData });
       });
   };
 
@@ -52,17 +68,29 @@ const SubwayContainer = () => {
         <button type="submit" onClick={fetchTrainData}>Refresh Sked</button>
         <button
           type="submit"
-          onClick={(e) => {
-            e.preventDefault();
+          onClick={(event) => {
+            event.preventDefault();
             subwayContextTest.dispatch({ type: types.LOGIN_REQ, loggedIn: true });
             console.log('hello, dispatch called');
           }}
         >
+
 Login Dummy
 
         </button>
+        <button
+          type="submit"
+          onClick={(event) => {
+            event.preventDefault();
+            fetchLoginData();
+            console.log('Let us make an acct.');
+          }}
+        >
+Login Fetch Dummy
+
+        </button>
       </div>
-      <TrainTime trainTimes={trainTimes} />
+      <TrainTime trainTimes={subwayContextTest.state.newTrainTimes} />
     </>
   );
 };

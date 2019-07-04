@@ -1,6 +1,5 @@
 import React from 'react';
 
-//* needs props here
 const TrainTime = (props) => {
   const { trainLine, departTime, arrivalTime } = props.trainTimes[0];
   return (
@@ -11,4 +10,5 @@ const TrainTime = (props) => {
     </>
   );
 };
+
 export default TrainTime;

@@ -5,19 +5,31 @@ import * as types from '../constants/actionTypes.js';
 const SubwayContext = React.createContext();
 
 const initState = {
-  newTrainTimes: [],
-  userInfo: { loggedIn: false },
+  newTrainTimes: [{
+    trainLine: 'Loading...',
+    arrivalTime: 'Loading...',
+    departTime: 'Loading...',
+  }],
+  userInfo: {
+    homeStop: 'R08S',
+    workStop: ['R23S', 'Q01S'],
+    timeToStation: 5,
+    loggedIn: false,
+  },
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case types.CREATE_ACCOUNT:
+      console.log('made new account and logged in');
+      return { ...state, userInfo: action.userInfo };
     case types.LOGIN_REQ:
       console.log('\n\n\nyou are logged in: ', action.loggedIn);
       // reassign user info
-      return { ...state, userInfo: { loggedIn: action.loggedIn } };
+      return { ...state, userInfo: action.userInfo };
     case types.GET_NEW_DATA:
       console.log('so you want a refresh?');
-      return { ...state };
+      return { ...state, newTrainTimes: action.trainTimes };
     default:
       return state;
   }

@@ -28,12 +28,22 @@ userController.createUser = (req, res, next) => {
     }
     console.log('added to DB');
     // res.status.json(newUser);
+    res.locals.userInfo = {
+      username: newUser.username,
+      phoneNumber: newUser.phoneNumber,
+      homeStop: newUser.homeStop,
+      workStop: newUser.workStop,
+      timeToStation: newUser.timeToStation,
+      loggedIn: true,
+    };
     return next();
   });
 };
 
 userController.verifyUser = (req, res, next) => {
+  console.log('made it to the server');
   const { username, password: givenPassword } = req.body;
+  console.log(JSON.stringify(req.body));
 
   User.findOne({ username }, (err, foundUser) => {
     if (err) {
@@ -44,9 +54,22 @@ userController.verifyUser = (req, res, next) => {
     if (foundUser !== null) {
       if (foundUser.password === givenPassword) {
         console.log('succesful login');
+        res.locals.userInfo = {
+          username: foundUser.username,
+          phoneNumber: foundUser.phoneNumber,
+          homeStop: foundUser.homeStop,
+          workStop: foundUser.workStop,
+          timeToStation: foundUser.timeToStation,
+          loggedIn: true,
+        };
         return next();
       }
+      return res.status(200).send('shit is not working in your find user method');
+      // return res.redirect('/signup');
     }
+    return res.status(200).send('no damn users found');
+
+    // return res.redirect('/signup');
   });
 };
 

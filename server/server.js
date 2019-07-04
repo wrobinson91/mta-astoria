@@ -21,7 +21,14 @@ mongoose.connect(mongoURI, { useNewUrlParser: true }, () => {
 
 const port = 3000;
 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 app.get('/', (req, res) => {
   res.status(200).send('welcome to the server');
@@ -31,6 +38,7 @@ app.get('/api', dataController.getMyTrainData, (req, res) => {
   // do something with this bigass json
   // console.log('my data:', res.locals.myNextTrain);
 
+  console.log('sending back data');
   res.status(200).json(res.locals.myNextTrain);
   // res.status(200).send(JSON.stringify(res.locals.myNextTrain));
 });
@@ -39,10 +47,13 @@ app.post('/signup', userController.createUser, (req, res) => {
   res.status(200).send('You have created a new user.');
 });
 
-// app.post('/login', userController.verifyUser, (req, res) => {
-//   // redirect to mainpage
-//   res.status(200).send('You have logged in;');
-// });
+app.post('/login', userController.verifyUser, (req, res) => {
+  // redirect to mainpage
+  console.log('sending shit back');
+  console.log(res.locals.userInfo);
+  res.set('Content-Type', 'application/json');
+  res.status(200).json(res.locals.userInfo);
+});
 
 app.get('*', (req, res) => {
   res.status(404).send('Path does not exist.');
