@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState, useEffect, useContext } from 'react';
 import TrainTime from '../components/TrainTime.jsx';
 import SubwayContext from '../context/SubwayContext.jsx';
@@ -60,37 +61,15 @@ const SubwayContainer = () => {
     console.log('state change: ', subwayContextTest.state);
   }, [subwayContextTest.state]);
 
+  console.log('work stops: ', subwayContextTest.state.userInfo.workStop);
   // render first three
   return (
     <>
-      <h4>Your Next Subway Times</h4>
+      <h4>${`${subwayContextTest.state.username}'s`} Next Subway Times</h4>
       <div>
         <button type="submit" onClick={fetchTrainData}>Refresh Sked</button>
-        <button
-          type="submit"
-          onClick={(event) => {
-            event.preventDefault();
-            subwayContextTest.dispatch({ type: types.LOGIN_REQ, loggedIn: true });
-            console.log('hello, dispatch called');
-          }}
-        >
-
-Login Dummy
-
-        </button>
-        <button
-          type="submit"
-          onClick={(event) => {
-            event.preventDefault();
-            fetchLoginData();
-            console.log('Let us make an acct.');
-          }}
-        >
-Login Fetch Dummy
-
-        </button>
       </div>
-      <TrainTime trainTimes={subwayContextTest.state.newTrainTimes} />
+      <TrainTime homeStop={subwayContextTest.state.userInfo.homeStop !== undefined ? subwayContextTest.state.userInfo.homeStop.toString() : ''} workStop={subwayContextTest.state.userInfo.workStop !== undefined ? subwayContextTest.state.userInfo.workStop.toString() : ''} trainTimes={subwayContextTest.state.newTrainTimes} />
     </>
   );
 };

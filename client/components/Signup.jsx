@@ -8,7 +8,7 @@ const Signup = () => {
 
   const stopOptions = [<option key="option0" value="EMPTY">-</option>];
   subwayStops.map((stop, idx) => {
-    stopOptions.push(<option key={`option${idx + 1}`} value={stop.stopId}>{stop.stopName}</option>);
+    stopOptions.push(<option idx={idx} key={`option${idx + 1}`} value={Object.keys(stop)}>{Object.values(stop)}</option>);
   });
 
   // const stopOptions = [<option value="R08S">39th Avenue</option>, <option value="R23S,Q01S">Canal Street</option>, <option value={['TKTK']}>FAKE</option>];
