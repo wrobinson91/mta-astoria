@@ -43,18 +43,18 @@ const SubwayContainer = () => {
   };
 
   const fetchTrainData = () => {
-    fetch('/api')
+    fetch(`/api/${subwayContextTest.state.userInfo.username}`)
       .then(data => data.json())
       .then((cleanedTrainData) => {
         console.log('cleaned out data: ', cleanedTrainData);
         // setNewTrainTimes(cleanedTrainData);
-        subwayContextTest.dispatch({ type: types.GET_NEW_DATA, trainTimes: cleanedTrainData });
+        subwayContextTest.dispatch({ type: types.GET_NEW_DATA, newTrainTimes: cleanedTrainData });
       });
   };
 
-  useEffect(() => {
-    fetchTrainData();
-  }, []);
+  // useEffect(() => {
+  //   fetchTrainData();
+  // }, []);
 
   useEffect(() => {
     console.log('state change: ', subwayContextTest.state);

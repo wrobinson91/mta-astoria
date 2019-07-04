@@ -1,0 +1,73 @@
+const subwayStops = [{
+  stopName: 'Astoria-Ditmars Blvd.',
+  stopId: 'R01S',
+}, {
+  stopName: 'Astoria Blvd.',
+  stopId: 'R03S',
+}, {
+  stopName: '30th Ave.',
+  stopId: 'R04S',
+}, {
+  stopName: 'Broadway',
+  stopId: 'R05S',
+}, {
+  stopName: '36th Ave.',
+  stopId: 'R06S',
+}, {
+  stopName: '39th Ave.',
+  stopId: 'R08S',
+}, {
+  stopName: 'Queensboro Plaza',
+  stopId: 'R09S',
+}, {
+  stopName: '59th St. & Lexington Ave.',
+  stopId: 'R11S',
+}, {
+  stopName: '59th St. & 5th Ave.',
+  stopId: 'R13S',
+}, {
+  stopName: '57th St. & 7th Ave.',
+  stopId: 'R14S,B10S',
+}, {
+  stopName: '49th St.',
+  stopId: 'R15S',
+}, {
+  stopName: '42nd St./Times Square',
+  stopId: 'R16S',
+}, {
+  stopName: '34th St./Herald Square',
+  stopId: 'R17S',
+}, {
+  stopName: '28th St.',
+  stopId: 'R18S',
+}, {
+  stopName: '23rd St.',
+  stopId: 'R19S',
+}, {
+  stopName: '14th St./Union Square',
+  stopId: 'R20S',
+}, {
+  stopName: '8th St./NYU',
+  stopId: 'R21S',
+}, {
+  stopName: 'Prince St.',
+  stopId: 'R22S',
+}, {
+  stopName: 'Canal St.',
+  stopId: 'R23S,Q01S',
+}, {
+  stopName: 'City Hall',
+  stopId: 'R24S',
+}, {
+  stopName: 'Cortland St.',
+  stopId: 'R25S',
+}, {
+  stopName: 'Rector St.',
+  stopId: 'R26',
+}, {
+  stopName: 'Whitehall St./South Ferry',
+  stopId: 'R27S',
+},
+];
+
+export default subwayStops;

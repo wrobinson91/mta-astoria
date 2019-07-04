@@ -65,14 +65,45 @@ userController.verifyUser = (req, res, next) => {
         return next();
       }
       console.log('pw no match');
-      return res.status(200).send('shit is not working in your find user method');
+      return res.status(200).send('Invalid login credentials.');
       // return res.redirect('/signup');
     }
     console.log('no user found');
-    return res.status(200).json('no damn users found');
+    return res.status(200).redirect('/');
 
     // return res.redirect('/signup');
   });
+};
+
+userController.verifyUserParam = (req, res, next) => {
+  console.log('made it to the server');
+  const { username } = req.params;
+  console.log(JSON.stringify(req.params));
+
+  User.findOne({ username }, (err, foundUser) => {
+    if (err) {
+      console.log('error in accessing DB');
+      throw new Error(err);
+    }
+    // ! look for PW
+    if (foundUser !== null) {
+      console.log('succesful login');
+      res.locals.userInfo = {
+        username: foundUser.username,
+        phoneNumber: foundUser.phoneNumber,
+        homeStop: foundUser.homeStop,
+        workStop: foundUser.workStop,
+        timeToStation: foundUser.timeToStation,
+        loggedIn: true,
+      };
+      return next();
+    }
+    console.log('no user found');
+    return res.status(200).redirect('/');
+    // return res.redirect('/signup');
+  });
+
+  // return res.redirect('/signup');
 };
 
 

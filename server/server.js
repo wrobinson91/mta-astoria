@@ -49,18 +49,33 @@ app.get('/api', dataController.getMyTrainData, (req, res) => {
   // res.status(200).send(JSON.stringify(res.locals.myNextTrain));
 });
 
+app.get('/api/:username', userController.verifyUserParam, dataController.getMyTrainData, (req, res) => {
+  // do something with this bigass json
+  // console.log('my data:', res.locals.myNextTrain);
+
+  console.log('sending back data');
+  res.status(200).json(res.locals.myNextTrain);
+  // res.status(200).send(JSON.stringify(res.locals.myNextTrain));
+});
+
+
 // TODO: set SSID cookie/jwt
-app.post('/signup', userController.createUser, (req, res) => {
-  res.status(200).send('You have created a new user.');
+app.post('/signup', userController.createUser, dataController.getMyTrainData, (req, res) => {
+  // console.log('my res locals: ', res.locals);
+  const { userInfo, myNextTrain: newTrainTimes } = res.locals;
+  console.log('logged in undefined?', res.locals.userInfo.loggedIn);
+  console.log('my data sent out: ', userInfo, newTrainTimes);
+  res.status(200).send({ userInfo, newTrainTimes });
 });
 
 // TODO: set SSID cookie/jwt
-app.post('/login', userController.verifyUser, (req, res) => {
+app.post('/login', userController.verifyUser, dataController.getMyTrainData, (req, res) => {
   // redirect to mainpage
   console.log('sending shit back');
-  console.log(res.locals.userInfo);
+  console.log('logged in undefined?', res.locals.userInfo.loggedIn);
+  const { userInfo, myNextTrain: newTrainTimes } = res.locals;
   res.set('Content-Type', 'application/json');
-  res.status(200).json(res.locals.userInfo);
+  res.status(200).json({ userInfo, newTrainTimes });
 });
 
 app.get('*', (req, res) => {

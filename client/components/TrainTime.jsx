@@ -5,8 +5,8 @@ const TrainTime = (props) => {
   return (
     <>
       <p>{`Train Line: ${trainLine}`}</p>
-      <p>{`Minutes until departure at your station: ${departTime}`}</p>
-      <p>{`Arrival at work: ${arrivalTime}`}</p>
+      <p>{`Minutes until departure at your station VARIABLE: ${departTime}`}</p>
+      <p>{`Arrival at work stop, VARIABLE: ${arrivalTime}`}</p>
     </>
   );
 };

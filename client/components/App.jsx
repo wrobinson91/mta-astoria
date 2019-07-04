@@ -12,10 +12,9 @@ import Login from './Login.jsx';
 
 
 const App = () => {
-
-
   const userContext = useContext(SubwayContext);
   const { loggedIn } = userContext.state.userInfo;
+  console.log('logged on change? ', loggedIn);
   return (
     <>
       {/* <SubwayContextProvider> */}

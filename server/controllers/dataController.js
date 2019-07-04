@@ -129,6 +129,20 @@ const dataController = {
     //     throw new Error(error);
     //   });
 
+    // console.log(res.locals.userInfo);
+    // let homeStop, workStop, timeToStation;
+    // if(req.query.username) {
+    //   homeStop = req
+    // }
+
+    const {
+      homeStop,
+      workStop,
+      timeToStation,
+    } = res.locals.userInfo;
+
+    console.log('time to get me some data with: ', homeStop, workStop, timeToStation);
+
     request(mtaReq, (error, response, body) => {
       console.log('request has been made');
       if (error) {
@@ -142,7 +156,9 @@ const dataController = {
         // console.log(feed);
         // console.log(feed);
 
-        const myNextTrain = dataController.nextTrainsForMe(feed).sort((a, b) => a.arrivalTime - b.arrivalTime);
+        // const myNextTrain = dataController.nextTrainsForMe(feed, homeStop, workStop, timeToStation).sort((a, b) => a.arrivalTime - b.arrivalTime);
+        const myNextTrain = dataController.nextTrainsForMe(feed, homeStop, workStop, timeToStation).sort((a, b) => a.arrivalTime - b.arrivalTime);
+        console.log(myNextTrain);
 
         // // console.log(`Train arrival times are: ${Object.values(myNextTrain)}`);
         // console.log(`The best next train you can catch is in ${myNextTrain[0].departTime} minutes. It'll reach your work stop in ${myNextTrain[0].arrivalTime} minutes.`);

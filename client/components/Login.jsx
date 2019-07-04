@@ -14,13 +14,14 @@ const Login = () => {
     // console.log(event);
     fetch('/login', { method: 'POST', headers: { 'Content-type': 'application/json' }, body: JSON.stringify({ username: userSubmit, password: pwSubmit }) })
       .then(data => data.json())
-      .then((userInfo) => {
-        console.log('you have logged in: ', userInfo);
-        userContext.dispatch({ type: types.LOGIN_REQ, userInfo });
+      .then((userObj) => {
+        console.log('you have logged in: ', userObj);
+        userContext.dispatch({ type: types.LOGIN_REQ, userInfo: userObj.userInfo, newTrainTimes: userObj.newTrainTimes });
       })
       .catch((err) => {
         console.log('error in login req');
-        throw new Error(err);
+        alert('Invalid login. Please try again.');
+        // throw new Error(err);
       });
   };
 

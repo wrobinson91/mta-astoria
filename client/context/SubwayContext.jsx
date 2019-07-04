@@ -27,12 +27,13 @@ const reducer = (state, action) => {
       console.log("let's actually login");
       return { ...state };
     case types.LOGIN_REQ:
-      console.log('\n\n\nyou are logged in: ', action.loggedIn);
+      console.log('\n\n\nyou are logged in: ', action.userInfo.loggedIn);
       // reassign user info
-      return { ...state, userInfo: action.userInfo };
+      console.log('new info: ', action.userInfo, action.newTrainTimes);
+      return { ...state, userInfo: action.userInfo, newTrainTimes: action.newTrainTimes };
     case types.GET_NEW_DATA:
       console.log('so you want a refresh?');
-      return { ...state, newTrainTimes: action.trainTimes };
+      return { ...state, newTrainTimes: action.newTrainTimes };
     default:
       return state;
   }
