@@ -5,10 +5,13 @@ const express = require('express');
 
 const app = express();
 const mongoose = require('mongoose');
-
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+
 const dataController = require('./controllers/dataController.js');
 const userController = require('./models/userController');
+const cookieController = require('./controllers/cookieController');
+// const sessionController = require('./controllers/sessionController');
 
 // const path = require('path');
 
@@ -23,6 +26,7 @@ const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -30,10 +34,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', (req, res) => {
+// TODO: set normal cookie
+app.get('/', cookieController.setCookie, (req, res) => {
   res.status(200).send('welcome to the server');
 });
 
+// add a cookie to verify which user to pull data from on this req
 app.get('/api', dataController.getMyTrainData, (req, res) => {
   // do something with this bigass json
   // console.log('my data:', res.locals.myNextTrain);
@@ -43,10 +49,12 @@ app.get('/api', dataController.getMyTrainData, (req, res) => {
   // res.status(200).send(JSON.stringify(res.locals.myNextTrain));
 });
 
+// TODO: set SSID cookie/jwt
 app.post('/signup', userController.createUser, (req, res) => {
   res.status(200).send('You have created a new user.');
 });
 
+// TODO: set SSID cookie/jwt
 app.post('/login', userController.verifyUser, (req, res) => {
   // redirect to mainpage
   console.log('sending shit back');
