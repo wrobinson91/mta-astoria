@@ -11,7 +11,10 @@ import 'babel-polyfill';
 
 render(
   <AppContainer>
-    <App />
+    <SubwayContextProvider>
+      <App />
+    </SubwayContextProvider>
+
   </AppContainer>,
   document.getElementById('root'),
 );
@@ -21,7 +24,11 @@ if (module.hot) {
     const NextApp = require('./components/App.jsx').default;
     render(
       <AppContainer>
-        <NextApp />
+        <SubwayContextProvider>
+
+          <NextApp />
+        </SubwayContextProvider>
+
       </AppContainer>,
     );
   });

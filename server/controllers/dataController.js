@@ -53,7 +53,7 @@ const dataController = {
   // 39th Ave Test
   // Q01 is for N, express
   // R33 is for WR, local
-  nextTrainsForMe(trainData, myStopId = 'R08S', workStop = ['R23S', 'Q01S'], timeToWalk = 5) {
+  nextTrainsForMe(trainData, myStopId = ['R08S'], workStop = ['R23S', 'Q01S'], timeToWalk = 5) {
     const newTimes = [];
     trainData.entity.forEach((trainRoute) => {
       // calling forEach on all the info in this API
@@ -68,12 +68,13 @@ const dataController = {
         if (trainRoute.tripUpdate.trip.routeId === 'N' || trainRoute.tripUpdate.trip.routeId === 'W') {
           stopObj.trainLine = trainRoute.tripUpdate.trip.routeId;
           trainRoute.tripUpdate.stopTimeUpdate.forEach((stopInfo) => {
-          // only looking for northbound trains
+            // only looking for northbound trains
             const timeNowMs = Date.parse(new Date());
             // only look for trains whose routes began 20min or more ago -- more likely to be at the end for
             // this particular stop
-            if (stopInfo.stopId === `${myStopId}`) {
-            // console.log('found a stop');
+            // cut out
+            if (myStopId.includes(stopInfo.stopId)) {
+              // console.log('found a stop');
               const nextArrivalTimesMS = startTimeInMS + (stopInfo.departure.time * 1000 - startTimeInMS);
               // const msFromNow = stopInfo.departure.time * 1000 - startTimeInMS;
               const minsFromNow = Math.floor((nextArrivalTimesMS - timeNowMs) / 1000 / 60) <= 0 ? 1 : Math.floor((nextArrivalTimesMS - timeNowMs) / 1000 / 60);

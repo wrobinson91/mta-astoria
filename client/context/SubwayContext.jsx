@@ -23,6 +23,9 @@ const reducer = (state, action) => {
     case types.CREATE_ACCOUNT:
       console.log('made new account and logged in');
       return { ...state, userInfo: action.userInfo };
+    case types.REAL_LOGIN_REQ:
+      console.log("let's actually login");
+      return { ...state };
     case types.LOGIN_REQ:
       console.log('\n\n\nyou are logged in: ', action.loggedIn);
       // reassign user info

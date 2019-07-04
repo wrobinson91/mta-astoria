@@ -17,13 +17,18 @@ const userSchema = new Schema({
     type: [String],
     required: true,
     index: true,
+    default: undefined,
   },
   workStop: {
     type: [String],
+    index: true,
     required: true,
     default: undefined,
   },
-  timeToStation: Number,
+  timeToStation: {
+    type: Number,
+    default: 5,
+  },
 });
 
 module.exports = mongoose.model('User', userSchema);

@@ -1,3 +1,17 @@
 body {
   background-color: skyblue;
 }
+/* section {
+  display: flex;
+} */
+form {
+  /* display: inline-block; */
+  vertical-align: middle;
+  width: 350px;
+}
+label {
+  display: inline-block;
+}
+/* input {
+  display: inline-block;
+} */
