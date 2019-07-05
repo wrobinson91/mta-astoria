@@ -112,29 +112,6 @@ const dataController = {
   },
   // tried as async, did not work!!!!!!
   getMyTrainData(req, res, next) {
-    // fetch(mtaURL, mtaReq)
-    //   .then((data) => {
-    //     const feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(data);
-    //     console.log(feed);
-    //     return feed.json();
-    //   })
-    //   .then((trainData) => {
-    //     const myNextTrain = nextTrainsForMe(trainData);
-    //     console.log(`Train arrival times are: ${myNextTrain}`);
-    //     console.log(`My next train is in ${Math.min(...myNextTrain)} minutes.`);
-    //     return myNextTrain;
-    //   })
-    //   .catch((error) => {
-    //     console.log('error in fetching');
-    //     throw new Error(error);
-    //   });
-
-    // console.log(res.locals.userInfo);
-    // let homeStop, workStop, timeToStation;
-    // if(req.query.username) {
-    //   homeStop = req
-    // }
-
     const {
       homeStop,
       workStop,

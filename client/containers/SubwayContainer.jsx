@@ -65,7 +65,7 @@ const SubwayContainer = () => {
   // render first three
   return (
     <>
-      <h4>${`${subwayContextTest.state.username}'s`} Next Subway Times</h4>
+      <h4>{subwayContextTest.state.userInfo.username}'s Next Subway Times</h4>
       <div>
         <button type="submit" onClick={fetchTrainData}>Refresh Sked</button>
       </div>

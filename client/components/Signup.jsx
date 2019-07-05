@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import SubwayContext from '../context/SubwayContext.jsx';
 import * as types from '../constants/actionTypes.js';
-import subwayStops from '../constants/subwayStops';
+import subwayStops from '../constants/subwayStops.js';
 
 const Signup = () => {
   const userContext = useContext(SubwayContext);

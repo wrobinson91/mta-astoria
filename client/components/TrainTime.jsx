@@ -1,5 +1,5 @@
 import React from 'react';
-import { subwayStopsKey } from '../constants/subwayStops';
+import { subwayStopsKey } from '../constants/subwayStops.js';
 
 const TrainTime = (props) => {
   const { trainLine, departTime, arrivalTime } = props.trainTimes[0];

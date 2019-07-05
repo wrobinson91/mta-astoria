@@ -5,6 +5,7 @@ const ourSecret = 'hC_I4ITOEgNtLI0BOV4IepztMqt0e51fMmAQrwULblGmJ2rnhbqbhugDc9Bxh
 const cookieController = {};
 
 cookieController.setCookie = (req, res, next) => {
+  console.log('setting a cookie');
   const randomNumber = Math.floor(Math.random() * 1000000);
   res.cookie('tracking-you', randomNumber, { expires: new Date(Date.now() + 900000), httpOnly: true });
   return next();
@@ -12,6 +13,7 @@ cookieController.setCookie = (req, res, next) => {
 
 cookieController.setSSIDCookie = (req, res, next) => {
   const { username } = req.body;
+  console.log('made a jwt');
 
   User.findOne({ username }, (err, foundUser) => {
     if (err) {
@@ -35,6 +37,25 @@ cookieController.setSSIDCookie = (req, res, next) => {
         return next();
       });
     }
+  });
+};
+
+cookieController.isLoggedIn = (req, res, next) => {
+  // console.log('this is in session controller is logged in', req.cookies);
+  console.log('checking the jwt');
+  const { ssid } = req.cookies;
+
+  if (!ssid) {
+    return res.status(403).redirect('/signup');
+  }
+  jwt.verify(ssid, ourSecret, (err, decoded) => {
+    if (err) throw new Error(err);
+    //* if finding a JWT was successful, then I went to get the user information, and immediately fetch data
+    //* invoke FIND
+    //* store user info in res.locals.userInfo
+    //* res.redirect(/api/
+    console.log('decoded token: ', decoded);
+    return next();
   });
 };
 

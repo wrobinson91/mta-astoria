@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 // * probably no sockets required.
 // * look up https://developer.mozilla.org/en-US/docs/Web/API/EventSource
 // * https://www.html5rocks.com/en/tutorials/eventsource/basics/
@@ -34,9 +35,12 @@ app.use((req, res, next) => {
   next();
 });
 
+// app.use('/static', express.static(path.join(__dirname, '../build')));
+
 // TODO: set normal cookie
-app.get('/', cookieController.setCookie, (req, res) => {
-  res.status(200).send('welcome to the server');
+app.get('/', cookieController.isLoggedIn, cookieController.setCookie, (req, res) => {
+  console.log('at the home route');
+  return res.status(200).sendFile(path.resolve(__dirname, '../index.html'));
 });
 
 // add a cookie to verify which user to pull data from on this req
@@ -60,7 +64,7 @@ app.get('/api/:username', userController.verifyUserParam, dataController.getMyTr
 
 
 // TODO: set SSID cookie/jwt
-app.post('/signup', userController.createUser, dataController.getMyTrainData, (req, res) => {
+app.post('/signup', userController.createUser, cookieController.setSSIDCookie, dataController.getMyTrainData, (req, res) => {
   // console.log('my res locals: ', res.locals);
   const { userInfo, myNextTrain: newTrainTimes } = res.locals;
   console.log('logged in undefined?', res.locals.userInfo.loggedIn);
@@ -69,7 +73,7 @@ app.post('/signup', userController.createUser, dataController.getMyTrainData, (r
 });
 
 // TODO: set SSID cookie/jwt
-app.post('/login', userController.verifyUser, dataController.getMyTrainData, (req, res) => {
+app.post('/login', userController.verifyUser, cookieController.setSSIDCookie, dataController.getMyTrainData, (req, res) => {
   // redirect to mainpage
   console.log('sending shit back');
   console.log('logged in undefined?', res.locals.userInfo.loggedIn);
