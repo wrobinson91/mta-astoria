@@ -24,6 +24,7 @@ module.exports = {
       '/api/:username': 'http://localhost:3000',
       '/login': 'http://localhost:3000',
       '/signup': 'http://localhost:3000',
+      '/auth/login': 'http://localhost:3000',
     },
   },
   node: {

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const path = require('path');
 const User = require('../models/userModel');
 
 const ourSecret = 'hC_I4ITOEgNtLI0BOV4IepztMqt0e51fMmAQrwULblGmJ2rnhbqbhugDc9Bxh8wcsIz60XQWBBb13mz22BcoBuXjeL';
@@ -46,7 +47,9 @@ cookieController.isLoggedIn = (req, res, next) => {
   const { ssid } = req.cookies;
 
   if (!ssid) {
-    return res.status(403).redirect('/signup');
+    return res.status(200).sendFile(path.resolve(__dirname, '../../index.html'));
+
+    //  return next();
   }
   jwt.verify(ssid, ourSecret, (err, decoded) => {
     if (err) throw new Error(err);
@@ -55,7 +58,26 @@ cookieController.isLoggedIn = (req, res, next) => {
     //* store user info in res.locals.userInfo
     //* res.redirect(/api/
     console.log('decoded token: ', decoded);
-    return next();
+    User.findById(decoded.userId, (err, foundUser) => {
+      if (err) {
+        console.log('error in finding user by id, in SSID verification');
+        throw new Error(err);
+      }
+      if (foundUser !== null) {
+        console.log('found user, who is already logged on: ', foundUser);
+        res.locals.userInfo = {
+          username: foundUser.username,
+          phoneNumber: foundUser.phoneNumber,
+          homeStop: foundUser.homeStop,
+          workStop: foundUser.workStop,
+          timeToStation: foundUser.timeToStation,
+          loggedIn: true,
+        };
+        console.log('passed on res locals: ', res.locals.userInfo);
+        return next();
+      }
+      return res.status(200).sendFile(path.resolve(__dirname, '../index.html'));
+    });
   });
 };
 

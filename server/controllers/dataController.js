@@ -112,6 +112,11 @@ const dataController = {
   },
   // tried as async, did not work!!!!!!
   getMyTrainData(req, res, next) {
+    console.log('res.locals.userInfo here: ', res.locals.userInfo);
+    if (res.locals.userInfo === undefined) {
+      console.log('inside conditional');
+      return next();
+    }
     const {
       homeStop,
       workStop,

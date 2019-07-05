@@ -25,41 +25,45 @@ const Login = () => {
       });
   };
 
+  const alreadyLoggedInFetch = () => {
+    fetch('/auth/login', { method: 'POST' })
+      .then(data => data.json())
+      .then((userObj) => {
+        console.log('you have confirmed your login.');
+        userContext.dispatch({ type: types.LOGIN_REQ, userInfo: userObj.userInfo, newTrainTimes: userObj.newTrainTimes });
+      })
+      .catch((err) => {
+        console.log('error in already logged in req');
+        alert('You are not already logged in. Please sign in.');
+      });
+  };
+
   return (
-    <section>
-      <h3>Log In</h3>
-      <form id="loginForm" onSubmit={(e) => { e.preventDefault(); realLoginFetch(usernameInputLogin, passwordInputLogin); }}>
-        <label htmlFor="usernameLogin">
-Username:
-          {' '}
-          <input type="text" name="username" id="usernameLogin" placeholder="Username" value={usernameInputLogin} onChange={(e) => { e.preventDefault(); setUsernameInputLogin(e.target.value); }} />
-        </label>
+    <>
 
-        <label htmlFor="passwordLogin">
-Password:
-          {' '}
-          <input type="password" name="password" id="passwordLogin" placeholder="Password" value={passwordInputLogin} onChange={(e) => { e.preventDefault(); setPasswordInputLogin(e.target.value); }} />
-        </label>
-        <input type="submit" value="Log In" />
-      </form>
-      <>
-        <button
-          type="submit"
-          onClick={(event) => {
-            event.preventDefault();
-            // loggedIn = true;
-            userContext.dispatch({ type: types.LOGIN_REQ, userInfo: { loggedIn: true } });
-            console.log('hello, dispatch called');
-          }}
-        >
+      <section>
+        <h3>Log In</h3>
+        <form id="loginForm" onSubmit={(e) => { e.preventDefault(); realLoginFetch(usernameInputLogin, passwordInputLogin); }}>
+          <label htmlFor="usernameLogin">
+            Username:
+            {' '}
+            <input type="text" name="username" id="usernameLogin" placeholder="Username" value={usernameInputLogin} onChange={(e) => { e.preventDefault(); setUsernameInputLogin(e.target.value); }} />
+          </label>
 
-Login Dummy
-
-        </button>
-      </>
-
+          <label htmlFor="passwordLogin">
+            Password:
+            {' '}
+            <input type="password" name="password" id="passwordLogin" placeholder="Password" value={passwordInputLogin} onChange={(e) => { e.preventDefault(); setPasswordInputLogin(e.target.value); }} />
+          </label>
+          <input type="submit" value="Log In" />
+        </form>
+        <aside>
+          <button type="submit" onClick={(e) => { e.preventDefault(); alreadyLoggedInFetch(); }}>Already Logged In?</button>
+        </aside>
+      </section>
       <Signup />
-    </section>
+
+    </>
   );
 };
 

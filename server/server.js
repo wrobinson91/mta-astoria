@@ -35,10 +35,11 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use('/static', express.static(path.join(__dirname, '../build')));
+app.use('/static', express.static(path.join(__dirname, '../build')));
+// app.use('/', express.static('html'));
 
 // TODO: set normal cookie
-app.get('/', cookieController.isLoggedIn, cookieController.setCookie, (req, res) => {
+app.get('/', cookieController.setCookie, cookieController.isLoggedIn, dataController.getMyTrainData, (req, res) => {
   console.log('at the home route');
   return res.status(200).sendFile(path.resolve(__dirname, '../index.html'));
 });
@@ -77,6 +78,13 @@ app.post('/login', userController.verifyUser, cookieController.setSSIDCookie, da
   // redirect to mainpage
   console.log('sending shit back');
   console.log('logged in undefined?', res.locals.userInfo.loggedIn);
+  const { userInfo, myNextTrain: newTrainTimes } = res.locals;
+  res.set('Content-Type', 'application/json');
+  res.status(200).json({ userInfo, newTrainTimes });
+});
+
+app.post('/auth/login', cookieController.isLoggedIn, dataController.getMyTrainData, (req, res) => {
+  console.log('jwt confirmed, already logged in');
   const { userInfo, myNextTrain: newTrainTimes } = res.locals;
   res.set('Content-Type', 'application/json');
   res.status(200).json({ userInfo, newTrainTimes });
