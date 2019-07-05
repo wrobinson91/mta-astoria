@@ -10,7 +10,7 @@ const TrainTime = (props) => {
     <>
       <p>{`Train Line: ${trainLine}`}</p>
       <p>{`The soonest departure from ${subwayStopsKey[homeStop]} is in ${departTime} ${minCheck}.`}</p>
-      <p>{`If you catch the first train, you'll make it to ${subwayStopsKey[workStop]} in ${arrivalTime} minutes.`}</p>
+      <p>{`If you catch this train, you'll make it to ${subwayStopsKey[workStop]} in ${arrivalTime} minutes.`}</p>
     </>
   );
 };

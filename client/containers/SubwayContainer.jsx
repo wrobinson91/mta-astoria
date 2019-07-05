@@ -1,32 +1,14 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import TrainTime from '../components/TrainTime.jsx';
 import SubwayContext from '../context/SubwayContext.jsx';
 import * as types from '../constants/actionTypes.js';
 
 
-// const mtaReq = {
-//   method: 'GET',
-//   url: 'http://datamine.mta.info/mta_esi.php?key=cd2dda73f82857cc82ab60fe95735909&feed_id=16',
-//   encoding: null,
-// };
-
-// const mtaRequest = require('../../server/index.js');
-
-// probably needs state
-
-
-const SubwayContainer = () => {
-  // const [trainTimes, setNewTrainTimes] = useState([
-  //   {
-  //     trainLine: 'Loading...',
-  //     arrivalTime: 'Loading...',
-  //     departTime: 'Loading...',
-  //   },
-  // ]);
-
-  const subwayContextTest = useContext(SubwayContext);
-  console.log(subwayContextTest);
+const SubwayContainer = (props) => {
+  const subwayContext = useContext(SubwayContext);
+  console.log(subwayContext);
+  const { stopOptions } = props;
   let userInfoTest;
 
   const fetchLoginData = () => {
@@ -35,7 +17,7 @@ const SubwayContainer = () => {
       .then((userInfo) => {
         console.log('you have logged in: ', userInfo);
         userInfoTest = userInfo;
-        subwayContextTest.dispatch({ type: types.LOGIN_REQ, userInfo: userInfoTest });
+        subwayContext.dispatch({ type: types.LOGIN_REQ, userInfo: userInfoTest });
       })
       .catch((err) => {
         console.log('error in login req');
@@ -44,12 +26,12 @@ const SubwayContainer = () => {
   };
 
   const fetchTrainData = () => {
-    fetch(`/api/${subwayContextTest.state.userInfo.username}`)
+    fetch(`/api/${subwayContext.state.userInfo.username}`)
       .then(data => data.json())
       .then((cleanedTrainData) => {
         console.log('cleaned out data: ', cleanedTrainData);
         // setNewTrainTimes(cleanedTrainData);
-        subwayContextTest.dispatch({ type: types.GET_NEW_DATA, newTrainTimes: cleanedTrainData });
+        subwayContext.dispatch({ type: types.GET_NEW_DATA, newTrainTimes: cleanedTrainData });
       });
   };
 
@@ -58,18 +40,23 @@ const SubwayContainer = () => {
   // }, []);
 
   useEffect(() => {
-    console.log('state change: ', subwayContextTest.state);
-  }, [subwayContextTest.state]);
+    console.log('state change: ', subwayContext.state);
+  }, [subwayContext.state]);
 
-  console.log('work stops: ', subwayContextTest.state.userInfo.workStop);
-  // render first three
+  console.log('work stops: ', subwayContext.state.userInfo.workStop);
+  // render first three?
   return (
     <>
-      <h4>{subwayContextTest.state.userInfo.username}'s Next Subway Times</h4>
+      <h4>{subwayContext.state.userInfo.username}'s Next Subway Times</h4>
       <div>
         <button type="submit" onClick={fetchTrainData}>Refresh Sked</button>
       </div>
-      <TrainTime homeStop={subwayContextTest.state.userInfo.homeStop !== undefined ? subwayContextTest.state.userInfo.homeStop.toString() : ''} workStop={subwayContextTest.state.userInfo.workStop !== undefined ? subwayContextTest.state.userInfo.workStop.toString() : ''} trainTimes={subwayContextTest.state.newTrainTimes} />
+      <section>
+        <h5>Change Stops</h5>
+        <div>Add In Form</div>
+        {/* copy in form from Signup.jsx */}
+      </section>
+      <TrainTime homeStop={subwayContext.state.userInfo.homeStop !== undefined ? subwayContext.state.userInfo.homeStop.toString() : ''} workStop={subwayContext.state.userInfo.workStop !== undefined ? subwayContext.state.userInfo.workStop.toString() : ''} trainTimes={subwayContext.state.newTrainTimes} />
     </>
   );
 };

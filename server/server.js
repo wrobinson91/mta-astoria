@@ -90,6 +90,11 @@ app.post('/auth/login', cookieController.isLoggedIn, dataController.getMyTrainDa
   res.status(200).json({ userInfo, newTrainTimes });
 });
 
+// TODO: tomorrow
+app.patch('/update', (req, res) => {
+  res.status(200).json({ status: 'done' });
+});
+
 app.get('*', (req, res) => {
   res.status(404).send('Path does not exist.');
 });

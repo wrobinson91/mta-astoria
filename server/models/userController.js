@@ -106,5 +106,9 @@ userController.verifyUserParam = (req, res, next) => {
   // return res.redirect('/signup');
 };
 
+userController.updateStops = (req, res, next) => {
+  // fill out here
+};
+
 
 module.exports = userController;
